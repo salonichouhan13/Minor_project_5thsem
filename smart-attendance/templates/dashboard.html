@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid-4">
+  <div class="card stat c1"><div class="ico"><i data-lucide="users"></i></div><div class="num skeleton" id="s-total">00</div><div class="lab">Total students</div><div class="desc">Registered in your classes</div></div>
+  <div class="card stat c2"><div class="ico"><i data-lucide="user-check"></i></div><div class="num skeleton" id="s-present">00</div><div class="lab">Present today</div><div class="desc" id="s-late">Includes late arrivals</div></div>
+  <div class="card stat c3"><div class="ico"><i data-lucide="user-x"></i></div><div class="num skeleton" id="s-absent">00</div><div class="lab">Absent today</div><div class="desc">Have not marked yet</div></div>
+  <div class="card stat c4"><div class="ico"><i data-lucide="percent"></i></div><div class="num skeleton" id="s-pct">00</div><div class="lab">Attendance today</div><div class="desc" id="s-low">Overall percentage</div></div>
+</div>
+
+<div class="grid-main">
+  <div class="stack">
+    <div class="card">
+      <div class="card-head"><div><h3><i data-lucide="trending-up"></i>Attendance trend</h3><div class="sub">Share of students present each class day</div></div>
+        <div class="seg" id="range"><button class="on" data-d="7">7 days</button><button data-d="30">30 days</button></div></div>
+      <div class="chart-box"><canvas id="trend"></canvas></div>
+    </div>
+    <div class="grid-2">
+      <div class="card"><h3><i data-lucide="pie-chart"></i>Present vs absent</h3><div class="sub">Today</div><div class="chart-box sm"><canvas id="donut"></canvas></div></div>
+      <div class="card" id="qr-card"><h3><i data-lucide="qr-code"></i>QR session</h3><div class="sub">Live status of your attendance code</div><div id="qr-mini"></div></div>
+    </div>
+    <div class="card">
+      <h3><i data-lucide="user-x"></i>Who is absent today</h3><div class="sub">Students who have not marked attendance</div>
+      <div id="absent-list" class="feed"></div>
+    </div>
+  </div>
+  <div class="stack">
+    <div class="card"><h3><i data-lucide="activity"></i>Recent activity</h3><div class="sub">Latest things that happened</div><div class="feed" id="activity"></div></div>
+  </div>
+</div>
+{% endblock %}

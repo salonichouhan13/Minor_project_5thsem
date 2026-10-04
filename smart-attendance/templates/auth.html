@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ 'Create teacher account' if mode == 'setup' else 'Sign in' }} · AttendIQ</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+</head>
+<body class="scan-body">
+<div class="card scan-card">
+  <div class="logo"><i data-lucide="scan-line"></i></div>
+  {% if mode == 'setup' %}
+  <h1>Create your teacher account</h1><p>This is a one-time step. Only you will be able to open the dashboard.</p>
+  {% else %}
+  <h1>Welcome back</h1><p>Sign in to manage attendance.</p>
+  {% endif %}
+  <form method="post" style="text-align:left">
+    <input type="hidden" name="next" value="{{ next }}">
+    <div class="field"><label for="username">Username</label><input id="username" name="username" autocomplete="username" required autofocus></div>
+    <div class="field"><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="{{ 'new-password' if mode == 'setup' else 'current-password' }}" required>{% if mode == 'setup' %}<small>At least 8 characters.</small>{% endif %}</div>
+    {% if mode == 'setup' %}<div class="field"><label for="confirm">Confirm password</label><input id="confirm" name="confirm" type="password" autocomplete="new-password" required></div>{% endif %}
+    {% if error %}<div class="result bad" style="margin:0 0 16px;padding:12px;flex-direction:row;gap:10px"><i data-lucide="alert-triangle" style="width:20px;height:20px"></i><span>{{ error }}</span></div>{% endif %}
+    <button class="btn primary" style="width:100%" type="submit"><span>{{ 'Create account' if mode == 'setup' else 'Sign in' }}</span></button>
+  </form>
+</div>
+<script>lucide.createIcons()</script>
+</body>
+</html>

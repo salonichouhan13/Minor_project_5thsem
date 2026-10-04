@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <div class="toolbar">
+    <div class="search grow"><i data-lucide="search"></i><input id="q" placeholder="Search by name or ID"></div>
+    <select id="cls"><option value="">All classes</option><option>CSE-A</option><option>CSE-B</option><option>IT-A</option></select>
+    <button class="btn ghost" id="pins" title="Create PINs for students who do not have one"><i data-lucide="key-round"></i>Generate PINs</button>
+    <button class="btn primary" id="add"><i data-lucide="user-plus"></i>Add student</button>
+  </div>
+  <div class="table-wrap"><table class="resp"><thead><tr><th>Student ID</th><th>Name</th><th>Class</th><th>Attendance</th><th>Today</th><th>Actions</th></tr></thead><tbody id="rows"></tbody></table></div>
+  <div class="pager"><span id="info"></span><div><button class="btn ghost sm" id="prev">Previous</button><button class="btn ghost sm" id="next">Next</button></div></div>
+</div>
+{% endblock %}

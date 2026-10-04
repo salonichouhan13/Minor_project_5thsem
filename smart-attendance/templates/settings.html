@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card" style="max-width:620px">
+  <h3><i data-lucide="settings"></i>Attendance rules</h3><div class="sub">These apply to every session you run.</div>
+  <div class="field"><label for="late_after">Mark as late after (minutes)</label><input type="number" id="late_after" min="1" max="100"><small>Students scanning later than this are marked Late.</small></div>
+  <div class="field"><label for="low_threshold">Low attendance limit (%)</label><input type="number" id="low_threshold" min="1" max="100"><small>Students below this get a warning notification.</small></div>
+  <div class="field"><label for="default_minutes">Default QR window (minutes)</label><input type="number" id="default_minutes" min="1" max="100"></div>
+  <button class="btn primary" id="save"><i data-lucide="save"></i><span>Save changes</span></button>
+</div>
+<div class="card" style="max-width:620px;margin-top:20px">
+  <h3><i data-lucide="key-round"></i>Change password</h3><div class="sub">Use at least 8 characters.</div>
+  <div class="field"><label for="cur">Current password</label><input type="password" id="cur" autocomplete="current-password"></div>
+  <div class="field"><label for="new">New password</label><input type="password" id="new" autocomplete="new-password"></div>
+  <button class="btn ghost" id="pw"><span>Update password</span></button>
+</div>
+{% endblock %}

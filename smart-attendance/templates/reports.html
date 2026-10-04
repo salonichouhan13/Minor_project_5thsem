@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="stack">
+  <div class="grid-2">
+    <div class="card"><h3><i data-lucide="download"></i>Download attendance</h3><div class="sub">Opens in Excel or Google Sheets.</div>
+      <div class="field"><label for="rsub">Subject</label><select id="rsub"><option value="">All subjects</option></select></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn primary" id="dl" href="/api/attendance/export.csv"><i data-lucide="download"></i>Download CSV</a><button class="btn ghost" onclick="window.print()"><i data-lucide="printer"></i>Print page</button></div></div>
+    <div class="card"><h3><i data-lucide="clipboard-list"></i>Class summary</h3><div class="sub">Quick numbers for today</div><div class="mini-stats" id="sum"></div></div>
+  </div>
+  <div class="card"><h3><i data-lucide="alert-triangle"></i>Students who need attention</h3><div class="sub" id="lowsub">Below the attendance limit</div>
+    <div class="table-wrap"><table class="resp"><thead><tr><th>Student</th><th>Class</th><th>Present</th><th>Absent</th><th>Attendance</th></tr></thead><tbody id="low"></tbody></table></div></div>
+</div>
+{% endblock %}

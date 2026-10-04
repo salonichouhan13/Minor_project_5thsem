@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid-main" style="grid-template-columns:minmax(0,1fr) minmax(0,1.2fr)">
+  <div class="stack">
+    <div class="card">
+      <h3><i data-lucide="sliders-horizontal"></i>Start a session</h3><div class="sub">Pick a class and how long students have to scan.</div>
+      <div class="field"><label for="subject">Class / subject</label><select id="subject"></select></div>
+      <div class="field"><label for="minutes">Attendance window</label>
+        <select id="minutes"><option value="1">1 minute</option><option value="2">2 minutes</option><option value="5">5 minutes</option><option value="10">10 minutes</option><option value="15">15 minutes</option><option value="30">30 minutes</option></select>
+        <small>The code stops working after this time.</small></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn primary" id="gen"><i data-lucide="qr-code"></i><span>Generate QR</span></button>
+        <button class="btn ghost" id="stop"><i data-lucide="square"></i>End session</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3><i data-lucide="users"></i>Scanned so far <span class="status none" id="cnt" style="margin-left:auto">0</span></h3>
+      <div class="sub">Students appear here the moment they scan.</div>
+      <div class="feed" id="attendees"></div>
+    </div>
+  </div>
+  <div class="card qr-live">
+    <div class="status none" id="st">NO ACTIVE QR</div>
+    <div class="ring">
+      <svg viewBox="0 0 120 120"><defs><linearGradient id="grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFEBB8"/><stop offset="1" stop-color="#BD5579"/></linearGradient></defs>
+        <circle class="bg" cx="60" cy="60" r="54"/><circle class="fg" id="fg" cx="60" cy="60" r="54" stroke-dasharray="339.29" stroke-dashoffset="339.29"/></svg>
+      <div class="qr-img idle" id="qrbox"><i data-lucide="scan-line"></i><span>Your QR code will appear here</span></div>
+    </div>
+    <div class="timer" id="timer">--:--</div>
+    <div style="color:var(--muted);font-size:14px" id="meta">Choose a class and press Generate QR.</div>
+    <div class="link-box"><input id="link" readonly placeholder="Student link appears here"><button class="btn ghost sm" id="copy"><i data-lucide="copy"></i>Copy</button></div>
+    <button class="btn ghost" id="regen" style="display:none"><i data-lucide="refresh-cw"></i>Regenerate QR</button>
+  </div>
+</div>
+{% endblock %}

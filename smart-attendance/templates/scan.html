@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mark attendance · AttendIQ</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+</head>
+<body class="scan-body">
+<div class="card scan-card">
+  <div class="logo"><i data-lucide="scan-line"></i></div>
+  {% if notfound %}
+  <h1>Page not found</h1><p>This page does not exist.</p><a class="btn primary" href="/">Go to dashboard</a>
+  {% else %}
+  <h1>Mark your attendance</h1>
+  <p id="info">Checking your QR code…</p>
+  <div id="form" style="display:none;text-align:left">
+    <div class="field"><label for="sid">Your Student ID</label><input id="sid" placeholder="e.g. CS24001" autocomplete="off" autocapitalize="characters"></div>
+    <div class="field"><label for="pin">Your PIN</label><input id="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" placeholder="4-digit PIN from your teacher" autocomplete="off"><small>Use the same phone every time. It is linked to you after your first scan.</small></div>
+    <button class="btn primary" id="go" style="width:100%"><span>Mark attendance</span></button>
+  </div>
+  <div id="result"></div>
+  <script>
+  const token={{ token|tojson }};
+  const $=s=>document.querySelector(s);
+  const show=(ok,t,s)=>{$('#result').innerHTML=`<div class="result ${ok?'ok':'bad'}"><i data-lucide="${ok?'check-circle-2':'alert-triangle'}"></i><b>${t}</b><span>${s||''}</span></div>`;lucide.createIcons()};
+  function deviceId(){let d=null;try{d=localStorage.getItem('attendiq_device')}catch(e){}
+    if(!d){const a=new Uint8Array(16);crypto.getRandomValues(a);d=[...a].map(b=>b.toString(16).padStart(2,'0')).join('');try{localStorage.setItem('attendiq_device',d)}catch(e){}}return d}
+  let left=0,timer;
+  function tick(){ if(left<=0){clearInterval(timer);$('#form').style.display='none';$('#info').textContent='';show(false,'QR EXPIRED','Ask your teacher for a new code.');return}
+    const m=String(Math.floor(left/60)).padStart(2,'0'),s=String(left%60).padStart(2,'0');$('#info').textContent=`${$('#info').dataset.sub} · Expires in ${m}:${s}`;left--}
+  fetch(`/api/scan/${token}/info`).then(r=>r.json()).then(d=>{
+    if(!d.ok){$('#info').textContent='';return show(false,'Invalid QR code','Scan the code on your teacher’s screen again.')}
+    if(!d.active){$('#info').textContent='';return show(false,'QR EXPIRED','Ask your teacher for a new code.')}
+    $('#info').dataset.sub=d.subject+' class';left=d.remaining;tick();timer=setInterval(tick,1000);$('#form').style.display='block'});
+  async function submit(){
+    const b=$('#go');b.disabled=true;b.innerHTML='<div class="spin"></div>';
+    try{const r=await fetch('/api/scan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token,student_id:$('#sid').value,pin:$('#pin').value,device_id:deviceId()})});
+      const d=await r.json();
+      if(d.ok){clearInterval(timer);$('#form').style.display='none';$('#info').textContent='';show(true,'Attendance marked successfully',`${d.name} · ${d.subject} · ${d.status}`)}
+      else show(false,d.message)}
+    catch(e){show(false,'No connection','Check your Wi-Fi and try again.')}
+    b.disabled=false;b.innerHTML='<span>Mark attendance</span>'}
+  $('#go').onclick=submit;$('#pin').addEventListener('keydown',e=>e.key==='Enter'&&submit());
+  </script>
+  {% endif %}
+</div>
+<script>lucide.createIcons()</script>
+</body>
+</html>

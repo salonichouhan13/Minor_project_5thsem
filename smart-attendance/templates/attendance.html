@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <div class="toolbar">
+    <div class="search grow"><i data-lucide="search"></i><input id="q" placeholder="Search name or ID"></div>
+    <input type="date" id="date" title="Filter by date">
+    <select id="subject"><option value="">All subjects</option></select>
+    <select id="sid"><option value="">All students</option></select>
+    <select id="status"><option value="">Any status</option><option>Present</option><option>Late</option><option>Absent</option></select>
+    <button class="btn ghost" id="clear"><i data-lucide="x"></i>Clear</button>
+    <a class="btn primary" id="export" href="/api/attendance/export.csv"><i data-lucide="download"></i>Export CSV</a>
+  </div>
+  <div class="table-wrap"><table class="resp"><thead><tr><th>Student</th><th>ID</th><th>Date</th><th>Time</th><th>Subject</th><th>Status</th></tr></thead><tbody id="rows"></tbody></table></div>
+  <div class="pager"><span id="info"></span></div>
+</div>
+{% endblock %}

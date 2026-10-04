@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="stack">
+  <div class="card">
+    <div class="card-head"><div><h3><i data-lucide="trending-up"></i>Attendance trend</h3><div class="sub">How attendance has moved over time</div></div>
+      <div class="seg" id="range"><button class="on" data-d="7">7 days</button><button data-d="30">30 days</button></div></div>
+    <div class="chart-box"><canvas id="trend"></canvas></div>
+  </div>
+  <div class="grid-2">
+    <div class="card"><h3><i data-lucide="pie-chart"></i>Overall status</h3><div class="sub">Last 30 days</div><div class="chart-box sm"><canvas id="donut"></canvas></div></div>
+    <div class="card"><h3><i data-lucide="bar-chart-3"></i>Weekly attendance</h3><div class="sub">Average by day of week</div><div class="chart-box sm"><canvas id="weekly"></canvas></div></div>
+  </div>
+  <div class="card"><h3><i data-lucide="book-open"></i>By subject</h3><div class="sub">Which classes students attend most</div><div class="chart-box sm"><canvas id="subjects"></canvas></div></div>
+</div>
+{% endblock %}

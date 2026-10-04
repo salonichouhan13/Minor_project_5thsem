@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ title }} · AttendIQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body data-page="{{ page }}">
+<aside class="sidebar">
+  <div class="brand"><div class="logo"><i data-lucide="scan-line"></i></div><span class="lbl">Attend<b>IQ</b></span></div>
+  <nav>
+    {% for key, label, icon in nav %}
+    <a href="{{ '/' if key == 'dashboard' else '/' ~ key }}" class="nav-item {{ 'active' if key == page }}" title="{{ label }}">
+      <i data-lucide="{{ icon }}"></i><span class="lbl">{{ label }}</span>
+    </a>
+    {% endfor %}
+  </nav>
+  <button class="collapse" id="collapse" title="Collapse menu"><i data-lucide="chevrons-left"></i><span class="lbl">Collapse</span></button>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div><h1>{{ title }}</h1><p>{{ sub }}</p></div>
+    <div class="top-right">
+      <div class="chip"><i data-lucide="calendar"></i>{{ today }}</div>
+      <button class="icon-btn" id="bell" title="Notifications"><i data-lucide="bell"></i><span class="badge" id="bell-n">0</span></button>
+      <div class="avatar" title="Signed in as {{ user }}">{{ user[:1]|upper }}</div>
+      <form method="post" action="/logout" style="display:contents"><button class="icon-btn" title="Sign out" type="submit"><i data-lucide="log-out"></i></button></form>
+      <div class="panel" id="notif"><h4>Notifications</h4><div id="notif-list"></div></div>
+    </div>
+  </header>
+  <section class="page">{% block content %}{% endblock %}</section>
+</main>
+<div id="toasts"></div>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

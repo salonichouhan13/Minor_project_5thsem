@@ -6,7 +6,7 @@ Flask + SQLite + vanilla JS. Teachers generate a time-limited QR code; students 
 ```bash
 cd smart-attendance
 python -m venv venv
-venv\Scripts\activate          # Windows   (Mac/Linux: source venv/bin/activate)
+venv\Scripts\activate         
 pip install -r requirements.txt
 python app.py
 ```
